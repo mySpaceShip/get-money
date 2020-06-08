@@ -10,6 +10,7 @@
 <script>
 /*eslint-disable*/
 import {uuid} from 'uuidv4'
+import { mapActions } from 'vuex'
 
 export default {
   name: "RandomValues",
@@ -17,20 +18,23 @@ export default {
     quantaty: 1,
   }),
   methods: {
+    ...mapActions({
+      SEND_ORDERS: 'orders/SEND_ORDERS'
+    }),
     generate() {
       const mins = [1, 5, 10, 15, 20, 30, 40]
       const maxs = [50, 60, 80, 100, 101, 102, 103]
       const rates = [20, 15, 40, 80, 100, 5, 9]
       const frequencies = [10, 20, 30, 50, 80, 90, 10, 70]
 
-      const generates = new Array(this.quantaty).fill().map(() => ({
+      const orders = new Array(this.quantaty).fill().map(() => ({
         id: uuid(),
         min: mins[Math.floor(Math.random() * mins.length)],
         max: maxs[Math.floor(Math.random() * maxs.length)],
         rate: rates[Math.floor(Math.random() * rates.length)],
         frequency: frequencies[Math.floor(Math.random() * frequencies.length)],
       }))
-      console.log(generates);
+      this.SEND_ORDERS(orders)
     },
   },
 };
@@ -41,8 +45,6 @@ $orange: #f2b61a;
 .random {
   display: flex;
   align-items: center;
-
-
 
   input {
     outline: none;
@@ -62,6 +64,7 @@ $orange: #f2b61a;
   }
 
   &__btn {
+    padding: 5px 10px;
     color: white;
     background: $orange;
     border: none;

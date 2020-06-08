@@ -1,16 +1,17 @@
 <template>
   <div id="app">
-    <random-values />
+    <orders-table />
     <!-- <router-view></router-view> -->
   </div>
 </template>
 
 <script>
-import RandomValues from './components/random-values'
+import OrdersTable from "./components/OrdersTable";
+
 export default {
   name: "App",
   components: {
-    RandomValues,
+    OrdersTable,
   },
 };
 </script>

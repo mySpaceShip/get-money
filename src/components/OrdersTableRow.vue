@@ -1,46 +1,26 @@
 <template>
   <div class="table-row">
-    <label
-      v-if="itemsAsArr.length !== 0"
-      @click.prevent="select"
-      class="table-row__checkbox"
-    >
-      <input type="checkbox" />
-      <span
-        :class="{ 'table-row__checkmark--active': selected }"
-        class="table-row__checkmark"
-      />
-    </label>
-    <div
-      v-if="items[sortedFilter]"
-      class="table-row__item"
-      :class="{
-        'table-row__item--lg': typeof items[sortedFilter] === 'string',
-      }"
-    >
-      {{ items[sortedFilter] }}
+    <div class="table-row__item">
+      {{ min }}
     </div>
-    <div
-      v-for="(item, index) in itemsAsArr"
-      :key="index"
-      ref="rowItem"
-      :data-id="items.id"
-      class="table-row__item"
-      :class="{ 'table-row__item--lg': typeof item === 'string' }"
-    >
-      {{ item }}
+    <div class="table-row__item">
+      {{ max }}
     </div>
+    <div class="table-row__item">
+      {{ rate }}
+    </div>
+    <div class="table-row__item">
+      {{ frequency }}
+    </div>
+
+    
     <div
       @click="opened = true"
-      v-click-outside="test"
       class="table-row__delete-block"
     >
       <img src="../../public/images/rubbish-bin.svg" />
       <span>delete</span>
       <popup
-        v-click-outside="(show = false)"
-        :show="opened && show"
-        @confirm="show"
         class="table-row__popup"
       >
         <p>Are you sure you want to <strong>delete item?</strong></p>
@@ -51,69 +31,42 @@
 
 <script>
 /* eslint-disable */
-import ClickOutside from "vue-click-outside";
 import Popup from "./popup";
 
 export default {
-  name: 'TableRow',
-  directives: {
-    ClickOutside,
-  },
+  name: 'TableRowOrders',
   components: {
     Popup,
   },
   props: {
-    items: {
-      type: Object,
-      default: () => {},
-    },
-    sortedFilter: {
+    id: {
       type: String,
-      default: "",
+      default: '-1',
     },
-    selectedItem: {
-      type: Boolean,
-      default: false,
+    min: {
+      type: Number,
+      default: 0,
     },
-    showPopup: {
-      type: Boolean,
-      default: false,
+    max: {
+      type: Number,
+      default: 0,
+    },
+    rate: {
+      type: Number,
+      default: 0,
+    },
+    frequency: {
+      type: Number,
+      default: 0,
     },
   },
   data: () => ({
-    selected: false,
-    show: false,
-    testShow: false,
   }),
   computed: {
-    itemsAsArr() {
-      let filteredObj = { ...this.items };
-      delete filteredObj[this.sortedFilter];
-      delete filteredObj["id"];
-      return Object.values(filteredObj);
-    },
   },
   watch: {
-    selectedItem(val) {
-      this.selected = val;
-    },
   },
   methods: {
-    test() {
-      console.log(true);
-      
-    },
-    select() {
-      let rowId = this.$refs.rowItem[0].getAttribute("data-id");
-      rowId = parseInt(rowId);
-      this.$emit("select", rowId);
-    },
-    removeItem() {
-      this.show = true;
-      let rowId = this.$refs.rowItem[0].getAttribute("data-id");
-      rowId = parseInt(rowId);
-      this.$store.dispatch("REMOVE_PRODUCT_BY_ID", rowId);
-    },
   },
 };
 </script>
@@ -134,9 +87,10 @@ export default {
   }
 
   &__item {
-    margin-right: 20px;
+    margin-right: 5px;
+    font-size: 18px;
     width: 100%;
-    max-width: 12%;
+    max-width: 145px;
     &--lg {
       width: 100%;
       max-width: 200px;
