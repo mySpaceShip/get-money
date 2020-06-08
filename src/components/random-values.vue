@@ -25,7 +25,7 @@ export default {
       const mins = [1, 5, 10, 15, 20, 30, 40]
       const maxs = [50, 60, 80, 100, 101, 102, 103]
       const rates = [20, 15, 40, 80, 100, 5, 9]
-      const frequencies = [10, 20, 30, 50, 80, 90, 10, 70]
+      const frequencies = ['every two weeks', 'every month', 'by one payment']
 
       const orders = new Array(this.quantaty).fill().map(() => ({
         id: uuid(),

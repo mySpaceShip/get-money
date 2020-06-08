@@ -1,135 +1,170 @@
 <template>
   <div class="pagination">
-    <div class="pagination__selector">
-      <selector :items="pages" @changeSelect="selectPage" />
+    <div
+      class="pagination__btn"
+      :class="{ 'pagination__btn--disable': current <= 1 }"
+    >
+      <a href="#" @click="changePage(prevPage)">
+        Prev
+    </a>
     </div>
-    <div class="pagination__btns">
-      <button
-        :class="{ 'pagination__btn--disable': fromPage === 1 }"
-        class="pagination__btn pagination__btn--left"
-        @click="prevPage"
-      />
-      <div class="pagination__index">
-        {{ fromPage }}
-        <span v-if="toPage !== ''">
-          -
-        </span>
-        {{ toPage }}
-        <span>
-          of
-        </span>
-        {{ lastPage }}
-      </div>
-      <button
-        :class="{ 'pagination__btn--disable': fromPage + perPage >= lastPage }"
-        class="pagination__btn pagination__btn--right"
-        @click="nextPage"
-      />
+    <ul>
+      <li
+        v-for="(page, index) in pages"
+        :key="index"
+        @click="changePage(page)"
+        :class="{ 'pagination__btn--active': current === page }"
+      >
+        <a href="#">
+          {{ page }}
+        </a>
+      </li>
+    </ul>
+    <div
+      class="pagination__btn"
+      :class="{ 'pagination__btn--disable': current >= totalPages }"
+    >
+      <a href="#" @click="changePage(nextPage)">
+        Next
+      </a>
     </div>
   </div>
 </template>
 
 <script>
 /* eslint-disable */
-
-import Selector from "./selectors/selector-pagination";
 export default {
-  name: 'Pagination',
-  components: {
-    Selector,
-  },
+  name: "Pagination",
   props: {
     perPage: {
       type: Number,
       default: 10,
     },
-    pages: {
-      type: Array,
-      default: () => [10, 15, 20],
-    },
-    currPage: {
+    current: {
       type: Number,
       default: 1,
+    },
+    pageRange: {
+      type: Number,
+      default: 2,
     },
   },
   data: () => ({}),
   computed: {
-    fromPage() {
-      const page = (this.currPage - 1) * this.perPage;
-      return page === 0 ? 1 : page;
+    totalPages() {
+      return Math.ceil(
+        this.$store.getters["orders/ORDERS"].length / this.perPage
+      );
     },
-    toPage() {
-      const res =
-        this.currPage * this.perPage >= this.lastPage
-          ? ""
-          : this.currPage * this.perPage;
-      return res;
+    pages() {
+      let pages = [];
+      for (let i = this.rangeStart; i <= this.rangeStart + this.pageRange; i++) {
+        pages.push(i);
+      }
+      return pages;
     },
-    lastPage() {
-      return this.$store.getters.PRODUCTS.length;
+    rangeStart() {
+      return this.current - this.pageRange > 0
+        ? this.current - this.pageRange
+        : 1;
+    },
+    rangeEnd() {
+      return this.current + this.pageRange >= this.totalPages
+        ? this.totalPages
+        : this.current + this.pageRange;
+    },
+    nextPage() {
+      return this.current >= this.totalPages
+        ? this.totalPages
+        : this.current + 1;
+    },
+    prevPage() {
+      return this.current <= 1 ? 1 : this.current - 1;
     },
   },
   methods: {
-    selectPage(perPage) {
-      this.$emit("selectPage", perPage);
-    },
-    nextPage() {
-      const next = !this.toPage ? this.currPage
-          : this.currPage + 1;
-      this.$emit("nextPage", next);
-    },
-    prevPage() {
-      const prev = this.currPage - 1 <= 0 ? this.currPage : this.currPage - 1;
-      this.$emit("nextPage", prev);
+    changePage(page) {
+      this.$emit("page-changed", page);
     },
   },
 };
 </script>
 
 <style lang="scss" scoped>
+$orange: #f2b61a;
+
 .pagination {
   display: flex;
   align-items: center;
-  padding: 10px 20px &__selector {
-    margin-right: 16px;
+  padding: 10px 20px;
+
+  &__btn {
+    padding: 5px 10px;
+    color: white;
+    background: $orange;
+    border: none;
+    border-radius: 4px;
+    outline: none;
+
+    &:hover,
+    &:active {
+      cursor: pointer;
+      background: darken($color: $orange, $amount: 6);
+    }
+
+    &--active,
+    li {
+      background: violet !important;
+    }
+
+    &--disable {
+      background: #B1B5B6;
+
+      &:hover, &:active {
+        background: #B1B5B6;
+      }
+
+    }
+
+    a {
+      color: white;
+      text-decoration: none;
+    }
+  }
+
+  ul {
+    padding-inline-start: unset;
+    margin-left: 10px;
+    margin-right: 10px;
+    list-style: none;
+    display: flex;
+    align-items: center;
+
+    li {
+      margin-left: 5px;
+      padding: 5px 10px;
+      color: white;
+      background: $orange;
+      border: none;
+      border-radius: 4px;
+      outline: none;
+
+      &:hover,
+      &:active {
+        cursor: pointer;
+        background: darken($color: $orange, $amount: 6);
+      }
+      a {
+        color: white;
+        text-decoration: none;
+      }
+    }
   }
 
   &__btns {
     display: flex;
     align-items: center;
-    margin-left: 16px;    
-  }
-
-  &__btn {
-    display: flex;
-    flex-shrink: 0;
-    align-items: center;
-    justify-content: center;
-    border: 1px solid #c6cbd4;
-    border-radius: 2px;
-    padding: 9px;
-    cursor: unset;
-    background: transparent;
-
-    &:after {
-      content: "";
-      border: solid #3d374a;
-      border-width: 0 2px 2px 0;
-      display: inline-block;
-      padding: 3px;
-    }
-
-    &--left:after {
-      transform: rotate(135deg);
-    }
-
-    &--right:after {
-      transform: rotate(-45deg);
-    }
-
-    &--disable:after {
-      border-color: #c6cbd4;
-    }
+    margin-left: 16px;
   }
 
   &__index {

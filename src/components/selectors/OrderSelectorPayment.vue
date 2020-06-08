@@ -1,6 +1,6 @@
 <template>
   <div class="selector">
-    <selector :value="selectedItem" text="Per page">
+    <selector :value="selectedItem">
       <div />
       <div class="selector__list">
         <label
@@ -14,7 +14,7 @@
             class="selector__checkmark"
             :class="{ 'selector__item--active': selectedItem == item }"
           />
-          {{ item }} per page
+          {{ item }}
         </label>
       </div>
     </selector>
@@ -24,7 +24,7 @@
 <script>
 import Selector from "../selectors/selector";
 export default {
-  name: 'SelectorPagination',
+  name: "OrderSelectorPayment",
   components: {
     Selector,
   },
@@ -32,6 +32,10 @@ export default {
     items: {
       type: Array,
       default: () => [],
+    },
+    selected: {
+      type: String,
+      default: "",
     },
   },
   data: () => ({
@@ -43,7 +47,7 @@ export default {
     },
   },
   mounted() {
-    this.selectedItem = this.items[0];
+    this.selectedItem = this.selected;
   },
 };
 </script>
@@ -81,8 +85,8 @@ export default {
   &__list {
     position: absolute;
     padding: 15px 2px 14px 17px;
-    top: 40px;
-    width: 130px;
+    top: 53px;
+    width: 299px;
     box-shadow: 0px 2px 8px rgba(0, 0, 0, 0.16);
     border-radius: 4px;
     background: white;

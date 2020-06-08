@@ -13,7 +13,11 @@
           Add
         </button>
         <div class="table__pagination">
-          <pagination />
+          <pagination
+            :current="pageSettings.currPage"
+            :pageRange="3"
+            @page-changed="(page) => (pageSettings.currPage = page)"
+          />
         </div>
       </div>
     </div>
@@ -22,14 +26,16 @@
         <div
           v-for="(title, index) in titles"
           :key="index"
-          @click="selectTitle"
-          :class="{ 'table-header__title--active': activeTitle === title }"
           class="table-header__item"
+          :class="{
+            'table-header__item--active': title.type === activeTitle,
+            'table-header__item--low': title.sortMax,
+          }"
         >
-          <h2 class="table-header__title">
-            {{ title | singBy }}
+          <h2 @click="selectTitle(title.type, index)" class="table-header__title">
+            {{ title.type | singBy }}
           </h2>
-          <span> &#8593; </span>
+          <span @click="sortOrders(title.type, title.sortMax, index)"> &#8593; </span>
         </div>
       </div>
       <div class="table__rows">
@@ -72,31 +78,35 @@ export default {
     },
   },
   data: () => ({
-    activeTitle: "min",
+    activeTitle: "",
+    titleId: 0,
     orders: [],
+    titles: [],
     paginatedOrders: [],
     pageSettings: {
       pages: [10, 20, 15, 5, 4, 3, 2, 17],
       perPage: 10,
       currPage: 1,
-      firstIndex: 0,
-      lastIndex: 10,
     },
-    titles: ["min", "max", "rate", "frequency"],
-    sortMax: true,
   }),
   computed: {
     ordersList() {
-      return this.PAGINATED_ORDERS(0, 10)();
-    },
-    orderTitles() {
-      const titles = Object.keys(this.orders[0]);
-      return this.orders;
+      const firstIndex =
+        (this.pageSettings.currPage - 1) * this.pageSettings.perPage;
+      const lastIndex = firstIndex + this.pageSettings.perPage;
+      let items = this.PAGINATED_ORDERS()(firstIndex, lastIndex);
+      if (this.activeTitle !== '' && this.titles.length > 0) {
+        items = this.titles[this.titleId].sortMax
+            ? _.orderBy(items, [this.titles[this.titleId].type], ["desc"])
+            : _.orderBy(items, [this.titles[this.titleId].type], ["asc"]);
+      }
+      return items;
     },
   },
   async created() {
     await this.GET_ORDERS();
     this.orders = await this.ORDERS();
+    this.setTitles()
   },
   methods: {
     ...mapGetters({
@@ -106,9 +116,26 @@ export default {
     ...mapActions({
       GET_ORDERS: "orders/GET_ORDERS",
     }),
-    selectTitle() {
-      this.sele;
+    setTitles() {
+      if (this.orders[0]) {
+        this.titles = Object.keys(this.orders[0]);
+        this.titles = this.titles
+          .filter((el) => el !== "id")
+          .map((el) => {
+            return { type: el, sortMax: false };
+          });
+      }
     },
+    selectTitle(title, id) {
+      this.titleId = id
+      this.activeTitle = title === this.activeTitle ? "" : title;
+    },
+    sortOrders(title, sortMax, id) {
+      this.titles[id].sortMax = !this.titles[id].sortMax
+      if (this.activeTitle != title) {
+        this.titles[id].sortMax = false
+      } 
+    }
   },
 };
 </script>
@@ -186,12 +213,29 @@ $orange: #f2b61a;
       max-width: 150px;
 
       h2 {
+        cursor: pointer;
         line-height: 29px;
         font-size: 26px;
         margin-right: 5px;
         color: #282136;
         text-transform: capitalize;
         font-weight: 500;
+      }
+
+      span {
+        cursor: pointer;
+      }
+
+      &--active {
+        h2 {
+          color: $orange;
+        }
+      }
+
+      &--low {
+        span {
+          transform: rotate(180deg);
+        }
       }
     }
   }
@@ -209,58 +253,6 @@ $orange: #f2b61a;
 
     &:nth-child(even) {
       background: #f8f9fa;
-    }
-  }
-  &-checkbox {
-    position: relative;
-    display: flex;
-    align-items: center;
-    margin-right: 30px;
-    font-size: 14px;
-    line-height: 24px;
-    user-select: none;
-    color: #5b5e77;
-    input {
-      position: absolute;
-      opacity: 0;
-      cursor: pointer;
-      height: 0;
-      width: 0;
-    }
-
-    &--active {
-      &.table-checkbox__checkmark {
-        background-color: #00a11e;
-      }
-      &.table-checkbox__checkmark:after {
-        display: block;
-      }
-    }
-
-    &__checkmark {
-      display: block;
-      flex-shrink: 0;
-      margin-right: 8px;
-      height: 14px;
-      width: 14px;
-      background-color: white;
-      border: 1px solid #d5dae0;
-      border-radius: 2px;
-      &::after {
-        content: "";
-        position: absolute;
-        left: 6px;
-        top: 3px;
-        width: 4px;
-        height: 7px;
-        border: solid white;
-        border-width: 0 1px 1px 0;
-        transform: rotate(45deg);
-      }
-    }
-
-    &:last-child {
-      margin-bottom: 0;
     }
   }
 }

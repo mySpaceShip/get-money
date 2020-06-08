@@ -4,6 +4,6 @@
       "min":10,
       "max":20,
       "rate":5,
-      "frequency":10
+      "frequency":"every two weeks"
    }
 ]

@@ -9,9 +9,17 @@ export const getOrders = () =>
       resolve(orders);
     }, delay);
   });
-export const addOrders = (neWorders) =>
+export const addOrders = (newOrders) =>
   new Promise((resolve) => {
-    const response = [...neWorders, ...orders]
+    const response = [...orders, ...newOrders]
+    const delay = parseInt(Math.random() * 100);
+    setTimeout(() => {
+      resolve(response);
+    }, delay);
+  });
+  export const addOrder = (newOrder) =>
+  new Promise((resolve) => {
+    const response = [newOrder, ...orders]
     const delay = parseInt(Math.random() * 100);
     setTimeout(() => {
       resolve(response);

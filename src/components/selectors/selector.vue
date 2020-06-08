@@ -5,7 +5,7 @@
       class="selector__select-btn"
       @click="show = !show"
     >
-      {{ value }} {{ text }}
+      {{ value }}
     </button>
     <div v-if="show" v-click-outside="() => (show = false)">
       <slot />
@@ -24,10 +24,6 @@ export default {
       type: [Number, String],
       default: null,
     },
-    text: {
-      type: String,
-      default: "",
-    },
   },
   data: () => ({
     show: false,
@@ -39,26 +35,31 @@ export default {
 </script>
 
 <style lang="scss" scoped>
+$orange: #f2b61a;
+
 .selector {
   position: relative;
   &__select-btn {
     display: flex;
+    width: 100%;
     flex-shrink: 0;
     align-items: center;
-    justify-content: center;
-    border: 1px solid #c6cbd4;
-    border-radius: 2px;
-    padding: 4px 3px 2px 13px;
+    justify-content: space-between;
+    border: 2px solid $orange;
+    border-radius: 3px;
+    padding: 10px 20px;
+    min-height: 41px;
     cursor: unset;
     background: transparent;
     font-size: 14px;
-    line-height: 21px;
+    line-height: 17px;
     color: #5b5e77;
     font-family: 'Source Sans Pro', sans-serif;
+    outline: none;
 
     &:after {
       content: "";
-      margin: -4px 5px 0 6px;
+      margin: -4px 5px 0 auto;
       border: solid #c6cbd4;
       border-width: 0 2px 2px 0;
       display: inline-block;

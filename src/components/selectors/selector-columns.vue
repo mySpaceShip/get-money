@@ -1,7 +1,6 @@
 <template>
   <div class="selector">
-    <selector :value="selectedItems.length" text="columns selected">
-      <div />
+    <selector :value="selectedItem">
       <div class="selector__list">
         <label class="selector__item" @click.prevent="selectAll">
           <input type="checkbox" />

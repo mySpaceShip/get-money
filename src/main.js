@@ -2,11 +2,8 @@ import Vue from 'vue'
 import App from './App.vue'
 import router from './router';
 import store from './store/index';
-import VueMask from 'v-mask'
-import { VueMaskDirective } from 'v-mask'
-
-Vue.directive('mask', VueMaskDirective);
-Vue.use(VueMask);
+import Vuelidate from 'vuelidate'
+Vue.use(Vuelidate)
 /*eslint-disable*/
 
 Vue.config.productionTip = false
