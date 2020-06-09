@@ -8,7 +8,6 @@
 </template>
 
 <script>
-/*eslint-disable*/
 import {uuid} from 'uuidv4'
 import { mapActions } from 'vuex'
 

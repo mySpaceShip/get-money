@@ -30,7 +30,6 @@
 </template>
 
 <script>
-/*eslint-disable*/
 import { mapActions, mapGetters } from "vuex";
 
 export default {

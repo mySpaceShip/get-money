@@ -1,4 +1,3 @@
-/*eslint-disable*/
 
 import {
   getOrders,
@@ -51,6 +50,7 @@ const actions = {
       .catch((err) => console.error(err));
     context.commit("SET_ORDERS", response);
   },
+  /*eslint-disable*/
   DELETE_ORDER: async (context, mathcOrder) => {
     const response = await deleteOrder()
       .then((resolve) => resolve)
@@ -62,6 +62,7 @@ const actions = {
     context.commit("SET_ORDERS", orders);
   },
   CHANGE_ORDER: async (context, mathcOrder) => {
+    /*eslint-disable*/
     const response = await changeOrder()
       .then((resolve) => resolve)
       .catch((err) => console.error(err));

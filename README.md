@@ -1,4 +1,4 @@
-# sort-table
+# get-money
 
 ## Project setup
 ```

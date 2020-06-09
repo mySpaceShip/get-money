@@ -1,4 +1,3 @@
-/* eslint-disable */
 import orders from "../backend/orders.json";
 
 /** Emulate post request */

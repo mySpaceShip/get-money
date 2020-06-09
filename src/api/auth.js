@@ -1,8 +1,7 @@
-/* eslint-disable */
 import { user } from "../backend/user.json";
 /** Emulate post request */
 export const getAuth = (auth) =>
-  new Promise((resolve, reject) => {
+  new Promise(resolve => {
     const response = {
       login: user.login !== auth.login ? false : true,
       password: user.password !== auth.password ? false : true,

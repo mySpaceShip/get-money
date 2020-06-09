@@ -4,7 +4,6 @@ import router from './router';
 import store from './store/index';
 import Vuelidate from 'vuelidate'
 Vue.use(Vuelidate)
-/*eslint-disable*/
 
 Vue.config.productionTip = false
 
