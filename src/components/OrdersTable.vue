@@ -2,16 +2,16 @@
   <div class="table__wrapper">
     <div class="table__panel">
       <h1 class="table__title">
-        get you money right now
+        get you money
       </h1>
       <div class="table__add-block">
         <div class="table__generate">
           <random-values />
         </div>
         <!-- will be router link for new component -->
-        <button class="table__add-btn">
+        <router-link to="/order" target="_blank" class="table__add-btn">
           Add
-        </button>
+        </router-link>
         <div class="table__pagination">
           <pagination
             :current="pageSettings.currPage"
@@ -32,10 +32,15 @@
             'table-header__item--low': title.sortMax,
           }"
         >
-          <h2 @click="selectTitle(title.type, index)" class="table-header__title">
+          <h2
+            @click="selectTitle(title.type, index)"
+            class="table-header__title"
+          >
             {{ title.type | singBy }}
           </h2>
-          <span @click="sortOrders(title.type, title.sortMax, index)"> &#8593; </span>
+          <span @click="sortOrders(title.type, title.sortMax, index)">
+            &#8593;
+          </span>
         </div>
       </div>
       <div class="table__rows">
@@ -58,7 +63,6 @@
 import RandomValues from "./random-values";
 import Pagination from "./Pagination";
 import Row from "./OrdersTableRow";
-import Popup from "./popup";
 import { mapActions, mapGetters } from "vuex";
 import _ from "lodash";
 
@@ -68,7 +72,6 @@ export default {
     RandomValues,
     Pagination,
     Row,
-    Popup,
   },
   filters: {
     singBy(val) {
@@ -82,7 +85,6 @@ export default {
     titleId: 0,
     orders: [],
     titles: [],
-    paginatedOrders: [],
     pageSettings: {
       pages: [10, 20, 15, 5, 4, 3, 2, 17],
       perPage: 10,
@@ -95,18 +97,20 @@ export default {
         (this.pageSettings.currPage - 1) * this.pageSettings.perPage;
       const lastIndex = firstIndex + this.pageSettings.perPage;
       let items = this.PAGINATED_ORDERS()(firstIndex, lastIndex);
-      if (this.activeTitle !== '' && this.titles.length > 0) {
+      // sort if activeTitle is not empty 
+      if (this.activeTitle !== "" && this.titles.length > 0) {
         items = this.titles[this.titleId].sortMax
-            ? _.orderBy(items, [this.titles[this.titleId].type], ["desc"])
-            : _.orderBy(items, [this.titles[this.titleId].type], ["asc"]);
+          ? _.orderBy(items, [this.titles[this.titleId].type], ["desc"])
+          : _.orderBy(items, [this.titles[this.titleId].type], ["asc"]);
       }
+      //else return without sort
       return items;
     },
   },
   async created() {
     await this.GET_ORDERS();
     this.orders = await this.ORDERS();
-    this.setTitles()
+    this.setTitles();
   },
   methods: {
     ...mapGetters({
@@ -116,6 +120,7 @@ export default {
     ...mapActions({
       GET_ORDERS: "orders/GET_ORDERS",
     }),
+    //sort titles by orders properties and add new property for sortMax columns
     setTitles() {
       if (this.orders[0]) {
         this.titles = Object.keys(this.orders[0]);
@@ -127,15 +132,17 @@ export default {
       }
     },
     selectTitle(title, id) {
-      this.titleId = id
+      this.titleId = id;
       this.activeTitle = title === this.activeTitle ? "" : title;
     },
+    // if activeTitle != title, reset filters
+    // When filter is not activated, it has no filters for sorts
     sortOrders(title, sortMax, id) {
-      this.titles[id].sortMax = !this.titles[id].sortMax
+      this.titles[id].sortMax = !this.titles[id].sortMax;
       if (this.activeTitle != title) {
-        this.titles[id].sortMax = false
-      } 
-    }
+        this.titles[id].sortMax = false;
+      }
+    },
   },
 };
 </script>
@@ -147,7 +154,7 @@ $orange: #f2b61a;
   display: flex;
   flex-direction: column;
   align-items: center;
-  padding: 16px 0 0 0;
+  padding: 16px 0 60px 0;
   border-top: 1px solid #ededed;
 
   &__wrapper {
@@ -160,10 +167,10 @@ $orange: #f2b61a;
   &__panel {
     display: flex;
     align-items: center;
-    margin-bottom: 20px;
   }
 
   &__title {
+    flex-shrink: 0;
     text-transform: capitalize;
     text-align: left;
     margin-right: 20px;
@@ -176,9 +183,13 @@ $orange: #f2b61a;
     &-block {
       display: flex;
       align-items: center;
+      width: 100%;
     }
 
     &-btn {
+      display: flex;
+      align-items: center;
+      justify-content: center;
       min-width: 70px;
       padding: 5px 10px;
       color: white;
@@ -186,6 +197,7 @@ $orange: #f2b61a;
       border: none;
       border-radius: 4px;
       outline: none;
+      text-decoration: none;
 
       &:hover,
       &:active {
@@ -195,8 +207,12 @@ $orange: #f2b61a;
     }
   }
 
+  &__pagination {
+    margin-left: 10px;
+  }
+
   &__generate {
-    margin-right: 20px;
+    margin: 0 auto;
   }
 
   &-header {
@@ -242,6 +258,8 @@ $orange: #f2b61a;
 
   &__rows {
     width: 100%;
+    border: 1px solid #ededed;
+    border-radius: 4px;
   }
 
   &__row {
@@ -258,10 +276,3 @@ $orange: #f2b61a;
 }
 </style>
 
-<style lang="scss">
-.popup {
-  max-width: 254px;
-  left: 0;
-  top: 60px;
-}
-</style>

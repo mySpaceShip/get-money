@@ -64,9 +64,9 @@
       </div>
     </div>
     <div class="order-editor__btns">
-      <button class="order-editor__btn">
+      <router-link to="/" class="order-editor__btn">
         Cancel
-      </button>
+      </router-link>
       <button @click="save" class="order-editor__btn">
         Save
       </button>
@@ -76,7 +76,6 @@
 
 <script>
 /* eslint-disable */
-import Popup from "./popup";
 import OrderSelectorPayment from "./selectors/OrderSelectorPayment";
 import { required, between, integer } from "vuelidate/lib/validators";
 import { mapActions, mapGetters } from "vuex";
@@ -85,7 +84,6 @@ import { uuid } from "uuidv4";
 export default {
   name: "OrderEditor",
   components: {
-    Popup,
     OrderSelectorPayment,
   },
   data: () => ({
@@ -107,6 +105,7 @@ export default {
     rateValue: null,
     frequency: ["every two weeks", "every month", "by one payment"],
     frequencyValue: "",
+    editMode: false,
   }),
   validations() {
     return {
@@ -127,25 +126,42 @@ export default {
       },
     };
   },
-  computed: {},
-  watch: {},
+  created() {
+    if (this.$router.history.current.query.id) {
+      const idOrderByArray = this.$router.history.current.query.id;
+      this.GET_ORDERS();
+      const editOrder = this.$store.getters["orders/ORDERS"][idOrderByArray];
+      this.uuid = editOrder.id;
+      this.minValue = editOrder.min;
+      this.maxValue = editOrder.max;
+      this.rateValue = editOrder.rate;
+      this.frequencyValue = editOrder.frequency;
+      this.editMode = true;
+    }
+  },
   methods: {
     ...mapActions({
+      GET_ORDERS: "orders/GET_ORDERS",
+      CHANGE_ORDER: "orders/CHANGE_ORDER",
       SEND_ORDER: "orders/SEND_ORDER",
     }),
-    save() {
+    async save() {
       this.$v.$touch();
-
       if (this.$v.$invalid) {
         return;
       }
-      this.SEND_ORDER({
+      const order = {
         id: this.uuid ? this.uuid : uuid(),
         min: this.minValue,
         max: this.maxValue,
         rate: this.rateValue,
         frequency: this.frequencyValue,
-      });
+      };
+
+      this.editMode ? await this.CHANGE_ORDER(order) 
+          : await this.SEND_ORDER(order);
+
+      this.$router.push('/')
     },
   },
 };

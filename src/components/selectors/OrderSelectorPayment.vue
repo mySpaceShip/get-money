@@ -1,6 +1,6 @@
 <template>
   <div class="selector">
-    <selector :value="selectedItem">
+    <order-selector :value="selectedItem" >
       <div />
       <div class="selector__list">
         <label
@@ -17,16 +17,16 @@
           {{ item }}
         </label>
       </div>
-    </selector>
+    </order-selector>
   </div>
 </template>
 
 <script>
-import Selector from "../selectors/selector";
+import OrderSelector from "./OrderSelector";
 export default {
   name: "OrderSelectorPayment",
   components: {
-    Selector,
+    OrderSelector,
   },
   props: {
     items: {

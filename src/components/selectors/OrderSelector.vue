@@ -1,13 +1,12 @@
 <template>
-  <div class="selector">
+  <div @click="show = !show" v-click-outside="() => (show = false)" class="selector">
     <button
       :class="{ 'selector__select-btn--active': show }"
       class="selector__select-btn"
-      @click="show = !show"
     >
       {{ value }}
     </button>
-    <div v-if="show" v-click-outside="() => (show = false)">
+    <div v-if="show">
       <slot />
     </div>
   </div>
@@ -16,6 +15,7 @@
 <script>
 import ClickOutside from "vue-click-outside";
 export default {
+  name: "OrderSelector",
   directives: {
     ClickOutside,
   },
@@ -28,9 +28,6 @@ export default {
   data: () => ({
     show: false,
   }),
-  mounted() {
-    this.popupItem = this.$el;
-  },
 };
 </script>
 
@@ -54,7 +51,7 @@ $orange: #f2b61a;
     font-size: 14px;
     line-height: 17px;
     color: #5b5e77;
-    font-family: 'Source Sans Pro', sans-serif;
+    font-family: "Source Sans Pro", sans-serif;
     outline: none;
 
     &:after {

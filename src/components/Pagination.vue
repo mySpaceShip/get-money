@@ -96,7 +96,6 @@ $orange: #f2b61a;
 .pagination {
   display: flex;
   align-items: center;
-  padding: 10px 20px;
 
   &__btn {
     padding: 5px 10px;
@@ -148,6 +147,10 @@ $orange: #f2b61a;
       border: none;
       border-radius: 4px;
       outline: none;
+
+      &:first-child {
+        margin: 0;
+      }
 
       &:hover,
       &:active {

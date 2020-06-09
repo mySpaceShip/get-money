@@ -12,36 +12,25 @@
     <div class="table-row__item">
       {{ frequency }}
     </div>
-
-    
-    <div
-      @click="opened = true"
-      class="table-row__delete-block"
-    >
-      <img src="../../public/images/rubbish-bin.svg" />
-      <span>delete</span>
-      <popup
-        class="table-row__popup"
-      >
-        <p>Are you sure you want to <strong>delete item?</strong></p>
-      </popup>
+    <div class="table-row__btns">
+      <button @click="deleteOrder()">delete</button>
+      <button @click="setEditedOrder">
+        edit
+      </button>
     </div>
   </div>
 </template>
 
 <script>
 /* eslint-disable */
-import Popup from "./popup";
+import { mapActions } from "vuex";
 
 export default {
-  name: 'TableRowOrders',
-  components: {
-    Popup,
-  },
+  name: "TableRowOrders",
   props: {
     id: {
       type: String,
-      default: '-1',
+      default: "-1",
     },
     min: {
       type: Number,
@@ -56,22 +45,40 @@ export default {
       default: 0,
     },
     frequency: {
-      type: Number,
-      default: 0,
+      type: String,
+      default: "",
     },
   },
-  data: () => ({
-  }),
-  computed: {
-  },
-  watch: {
-  },
+  data: () => ({}),
+  computed: {},
+  watch: {},
   methods: {
+    ...mapActions({
+      DELETE_ORDER: "orders/DELETE_ORDER",
+    }),
+    async deleteOrder() {
+      await this.DELETE_ORDER({
+        id: this.id,
+        min: this.min,
+        max: this.max,
+        rate: this.rate,
+        frequency: this.frequency,
+      });
+    },
+    setEditedOrder() {
+      const orders = this.$store.getters["orders/ORDERS"];
+      const orderIdByArray = orders.findIndex((el) => el.id === this.id);
+      window.open("/order?id=" + `${orderIdByArray}`, "_blank");
+    },
   },
 };
 </script>
 
 <style lang="scss">
+$blue: #409cff;
+$orange: #f2b61a;
+
+
 .table-row {
   position: relative;
   display: flex;
@@ -79,12 +86,6 @@ export default {
   width: 100%;
   padding: 18px 22px 17px 37px;
   box-sizing: border-box;
-
-  &:hover {
-    .table-row__delete-block {
-      opacity: 1;
-    }
-  }
 
   &__item {
     margin-right: 5px;
@@ -147,31 +148,31 @@ export default {
     }
   }
 
-  &__delete-block {
-    position: absolute;
+  &__btns {
     display: flex;
     align-items: center;
-    right: 33px;
-    top: 50%;
-    transform: translateY(-50%);
-    opacity: 1;
-    z-index: 5;
+    justify-content: space-between;
+    margin-left: 73px;
+    max-width: 163px;
+    width: 100%;
+    button {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      min-width: 70px;
+      padding: 5px 10px;
+      color: white;
+      background: $blue;
+      border: none;
+      border-radius: 4px;
+      outline: none;
+      text-decoration: none;
 
-    span {
-      font-size: 14px;
-      color: #5b5e77;
-    }
-
-    img {
-      width: 12px;
-      height: 16px;
-      margin-right: 6px;
-    }
-  }
-
-  &__popup {
-    p {
-      white-space: nowrap;
+      &:hover,
+      &:active {
+        cursor: pointer;
+        background: darken($color: $orange, $amount: 6);
+      }
     }
   }
 }

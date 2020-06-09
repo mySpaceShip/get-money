@@ -1,7 +1,9 @@
 import Vue from 'vue';
 import Router from 'vue-router';
-import Auth from '@/components/Autocode/Auth.vue';
-import report from '@/components/Autocode/Report.vue';
+import Auth from '@/components/Auth.vue';
+import OrdersTable from '@/components/OrdersTable';
+import OrderEditor from '@/components/OrderEditor';
+
 
 Vue.use(Router);
 export default new Router({
@@ -15,8 +17,14 @@ export default new Router({
     },
     {
       path: '/',
-      name: 'report',
-      component: report,
+      name: 'orders',
+      component: OrdersTable,
+      meta: { requiresLogin: true },
+    },
+    {
+      path: '/order*',
+      name: 'order',
+      component: OrderEditor,
       meta: { requiresLogin: true },
     },
   ],

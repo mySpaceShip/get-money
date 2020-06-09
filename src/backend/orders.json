@@ -1,9 +1,226 @@
 [
    {
-      "id":"75442486-0878-440c-9db1-a7006c25a39f",
+      "id":"56610db2-0b6e-407a-bca1-4214137e9fad",
+      "min":40,
+      "max":102,
+      "rate":100,
+      "frequency":"by one payment"
+   },
+   {
+      "id":"6ecc600c-380f-4dca-bf94-52386f4573db",
       "min":10,
-      "max":20,
+      "max":103,
       "rate":5,
       "frequency":"every two weeks"
+   },
+   {
+      "id":"727b6cf4-3dc6-49cb-9d46-45a5008738d4",
+      "min":10,
+      "max":103,
+      "rate":15,
+      "frequency":"every two weeks"
+   },
+   {
+      "id":"2e8cac19-f7ca-4bae-9e65-55a906c002a6",
+      "min":5,
+      "max":101,
+      "rate":5,
+      "frequency":"every month"
+   },
+   {
+      "id":"1ebdfa0a-bc30-4231-a2d9-79c20f314bfb",
+      "min":1,
+      "max":101,
+      "rate":20,
+      "frequency":"every month"
+   },
+   {
+      "id":"4f3ce170-e4db-4ff8-8c51-31eb2fdd508e",
+      "min":30,
+      "max":80,
+      "rate":9,
+      "frequency":"every two weeks"
+   },
+   {
+      "id":"00e5e025-91bc-4910-a504-8500062290e1",
+      "min":10,
+      "max":100,
+      "rate":20,
+      "frequency":"every month"
+   },
+   {
+      "id":"eb12940f-ff83-41d2-aff5-62fbc88f1981",
+      "min":5,
+      "max":60,
+      "rate":9,
+      "frequency":"every two weeks"
+   },
+   {
+      "id":"15d61efa-b441-4800-80f4-e6b17102bfcc",
+      "min":5,
+      "max":80,
+      "rate":40,
+      "frequency":"every two weeks"
+   },
+   {
+      "id":"5d0709f8-128d-4f9a-858a-abf7f29b3e98",
+      "min":1,
+      "max":100,
+      "rate":100,
+      "frequency":"every two weeks"
+   },
+   {
+      "id":"1a883b0c-e1d1-4c60-9dbc-dd9ead4e71e3",
+      "min":10,
+      "max":50,
+      "rate":80,
+      "frequency":"by one payment"
+   },
+   {
+      "id":"df140d53-3e26-4f3a-8dd4-790d8c66b29f",
+      "min":10,
+      "max":101,
+      "rate":20,
+      "frequency":"by one payment"
+   },
+   {
+      "id":"34ccd182-9904-4b75-8be2-4baa90c0aa82",
+      "min":5,
+      "max":102,
+      "rate":100,
+      "frequency":"every two weeks"
+   },
+   {
+      "id":"6737f417-0220-42b0-9cc9-5f830dd33835",
+      "min":5,
+      "max":101,
+      "rate":80,
+      "frequency":"every two weeks"
+   },
+   {
+      "id":"eea87310-f21d-4e60-8d70-7cf88c2e5466",
+      "min":15,
+      "max":100,
+      "rate":100,
+      "frequency":"every month"
+   },
+   {
+      "id":"212a2f9e-2db7-47e7-aa11-a6ec5f5b470e",
+      "min":20,
+      "max":100,
+      "rate":9,
+      "frequency":"by one payment"
+   },
+   {
+      "id":"661d640b-43d9-4ec4-be05-b4542fa6ed2e",
+      "min":20,
+      "max":60,
+      "rate":9,
+      "frequency":"every two weeks"
+   },
+   {
+      "id":"2c165309-3d3a-494e-aaa4-fd601b98e09d",
+      "min":40,
+      "max":102,
+      "rate":80,
+      "frequency":"every month"
+   },
+   {
+      "id":"626f913d-ece4-4310-a83c-0ae8952002a0",
+      "min":20,
+      "max":101,
+      "rate":100,
+      "frequency":"by one payment"
+   },
+   {
+      "id":"b13bac0e-de47-4550-9c6e-302a94f65a8a",
+      "min":30,
+      "max":50,
+      "rate":100,
+      "frequency":"every two weeks"
+   },
+   {
+      "id":"13919705-28b4-4003-9f84-987916522946",
+      "min":10,
+      "max":80,
+      "rate":20,
+      "frequency":"every two weeks"
+   },
+   {
+      "id":"1c5a6194-6108-45d4-befa-8b95e80a89ae",
+      "min":1,
+      "max":100,
+      "rate":40,
+      "frequency":"every month"
+   },
+   {
+      "id":"10902e05-7301-4303-b85c-718b1125eceb",
+      "min":20,
+      "max":50,
+      "rate":15,
+      "frequency":"every month"
+   },
+   {
+      "id":"312a7c0d-b609-4be9-8865-eed37dea2b5d",
+      "min":5,
+      "max":80,
+      "rate":100,
+      "frequency":"every two weeks"
+   },
+   {
+      "id":"45a1288c-b73c-4bed-b565-537e6e58aeb9",
+      "min":5,
+      "max":100,
+      "rate":100,
+      "frequency":"by one payment"
+   },
+   {
+      "id":"d3e4bda1-2053-4851-aa59-207002e2fcf3",
+      "min":20,
+      "max":50,
+      "rate":100,
+      "frequency":"every month"
+   },
+   {
+      "id":"bd78094f-8918-46db-83ce-7de00d4d7f5b",
+      "min":20,
+      "max":60,
+      "rate":20,
+      "frequency":"every month"
+   },
+   {
+      "id":"95cb4b4d-2ea7-4c2f-81aa-44abd1fa80c7",
+      "min":30,
+      "max":60,
+      "rate":40,
+      "frequency":"every two weeks"
+   },
+   {
+      "id":"7a392172-49f9-4453-821b-b5347e15cc4b",
+      "min":1,
+      "max":60,
+      "rate":80,
+      "frequency":"every month"
+   },
+   {
+      "id":"ed65e7e9-ddad-402d-b350-70e75db2d7ac",
+      "min":10,
+      "max":100,
+      "rate":100,
+      "frequency":"every two weeks"
+   },
+   {
+      "id":"83c53c65-86fc-4370-ab7f-0edfc486b210",
+      "min":20,
+      "max":103,
+      "rate":100,
+      "frequency":"every month"
+   },
+   {
+      "id":"1d75eb18-5151-46fe-82a2-e4cfe6c48b1f",
+      "min":30,
+      "max":50,
+      "rate":15,
+      "frequency":"by one payment"
    }
 ]
